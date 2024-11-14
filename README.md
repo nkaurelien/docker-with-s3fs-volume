@@ -21,15 +21,32 @@ minioadmin:minioadmin
 ```
 
 ```console
-sudo mkdir -p /mnt/minio
+chmod 600 /path/to/password.txt
+```
+```console
+sudo mkdir -p /mnt/minio-nginx
 
-s3fs minioadmin:minioadmin@localhost:9000 /mnt/minio -o passwd_file=/path/to/password.txt -o url=http://localhost:9000 
+sudo s3fs nginx-data /mnt/minio-nginx -o passwd_file=password.txt,use_path_request_style,url=http://localhost:9000,uid=1000,gid=1000,allow_other,nonempty,mp_umask=002,logfile=/var/log/s3l
 
-sudo s3fs my-bucket-name /mnt/minio -o passwd_file=/home/user/.s3creds,use_path_request_style,url=https://FQDN-hostname:9000
+sudo s3fs nginx-data /mnt/minio-nginx -o passwd_file=password.txt,use_path_request_style,url=http://localhost:9000,uid=1000,gid=1000,allow_other,nonempty,mp_umask=002,logfile=/var/log/s3l
 
 ```
 
-2. (optional) Share the Mounted Directory via NFS:
+Assume that nginx-data bucket exists on minio
+
+If you want unmount , do this
+
+```console
+ umount /mnt/minio-nginx
+```
+
+3. (optional) Create external docker volume for
+
+```console
+docker volume create minio_nginx_volume --opt type=none --opt device=/mnt/minio-nginx --opt o=bind
+```
+
+3. (optional) Share the Mounted Directory via NFS:
 
 Install the NFS server if it's not already installed:
 ```console

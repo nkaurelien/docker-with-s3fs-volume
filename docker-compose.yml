@@ -5,10 +5,13 @@ services:
     image: nginx:latest
     container_name: nginx
     ports:
-      - "80:80"
+      - "8080:80"
     volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./nginx/html:/usr/share/nginx/html
+      # - ./nginx/conf.d:/etc/nginx/conf.d
+      # - ./nginx/html:/usr/share/nginx/html
+      # - /mnt/minio-nginx/nginx/conf.d:/etc/nginx/conf.d
+      - /mnt/minio-nginx/nginx/html:/usr/share/nginx/html
+      # - minio_nginx_volume:/path/to/minio/in/nginx
     depends_on:
       - minio
 
@@ -44,3 +47,5 @@ services:
 
 volumes:
   minio_data:
+  # minio_nginx_volume:
+  #   external: true
