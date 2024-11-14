@@ -15,10 +15,17 @@ https://github.com/s3fs-fuse/s3fs-fuse
 
 2. Mount MinIO Bucket Using s3fs:
 
+Add the following line to the password.txt file:
+```text
+minioadmin:minioadmin
+```
+
 ```console
 sudo mkdir -p /mnt/minio
 
-s3fs minioadmin:minioadmin@localhost:9000 /mnt/minio -o passwd_file=/path/to/passwd_file -o url=http://localhost:9000 
+s3fs minioadmin:minioadmin@localhost:9000 /mnt/minio -o passwd_file=/path/to/password.txt -o url=http://localhost:9000 
+
+sudo s3fs my-bucket-name /mnt/minio -o passwd_file=/home/user/.s3creds,use_path_request_style,url=https://FQDN-hostname:9000
 
 ```
 
